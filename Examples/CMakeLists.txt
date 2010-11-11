@@ -1,0 +1,2 @@
+ADD_EXECUTABLE(ConvertMesh ConvertMesh.cxx)
+TARGET_LINK_LIBRARIES(ConvertMesh ITKQuadEdgeMesh ITKMeshIO)
