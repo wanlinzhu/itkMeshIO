@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkMeshIOBase.h,v $
   Language:  C++
-  Date:      $Date: 2010-11-11 23:26:48 $
-  Version:   $Revision: 0.12 $
+  Date:      $Date: 2010-11-12 16:22:48 $
+  Version:   $Revision: 0.13 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -250,13 +250,13 @@ public:
   {
     if ( UsePointPixel )
       {
-      SetNumberOfPointPixelComponents(VLength);
+      SetNumberOfPointPixelComponents(VLength * ( VLength + 1 ) / 2);
       SetPointPixelComponentType(ntype);
       SetPointPixelType(SYMMETRICSECONDRANKTENSOR);
       }
     else
       {
-      SetNumberOfCellPixelComponents(VLength);
+      SetNumberOfCellPixelComponents(VLength * ( VLength + 1 ) / 2);
       SetCellPixelComponentType(ntype);
       SetCellPixelType(SYMMETRICSECONDRANKTENSOR);
       }
