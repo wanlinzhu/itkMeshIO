@@ -1,5 +1,6 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
+#include <itksys/SystemTools.hxx>
 
 template< class TMesh >
 int
@@ -24,6 +25,10 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
     }
 
   typename MeshFileWriterType::Pointer writer = MeshFileWriterType::New();
+	if(itksys::SystemTools::GetFilenameLastExtension(INfilename) == itksys::SystemTools::GetFilenameLastExtension(OUTfilename) )
+    {
+    writer->SetMeshIO(reader->GetMeshIO());
+    }
   writer->SetFileName(OUTfilename);
   writer->SetInput( reader->GetOutput() );
 
@@ -46,7 +51,7 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
 
   if ( !itksys::SystemTools::FilesDiffer(INfilename, OUTfilename) )
     {
-    return EXIT_FAILURE;
+    return EXIT_SUCCESS;
     }
 
   typename MeshFileReaderType::Pointer reader1 = MeshFileReaderType::New();

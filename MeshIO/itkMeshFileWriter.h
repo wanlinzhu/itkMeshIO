@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkMeshFileWriter.h,v $
   Language:  C++
-  Date:      $Date: 2010-08-01 00:00:10 $
-  Version:   $Revision: 0.03 $
+  Date:      $Date: 2010-11-17 22:42:10 $
+  Version:   $Revision: 0.04 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -120,6 +120,7 @@ public:
       this->m_MeshIO = io;
       }
     m_FactorySpecifiedMeshIO = false;
+    m_UserSpecifiedMeshIO = true;
   }
 
   itkGetObjectMacro(MeshIO, MeshIOBase);
@@ -143,6 +144,7 @@ public:
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
+
 protected:
   MeshFileWriter();
   ~MeshFileWriter();
@@ -176,10 +178,10 @@ private:
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO;    // track whether the MeshIO is
                                                 // user specified
-  bool m_FactorySpecifiedMeshIO;                // track whether the factory
+  bool                m_FactorySpecifiedMeshIO; // track whether the factory
                                                 // mechanism set the MeshIO
-  bool m_UseCompression;
-  bool m_FileTypeIsBINARY;
+  bool                m_UseCompression;
+  bool                m_FileTypeIsBINARY;
 };
 } // end namespace itk
 

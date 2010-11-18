@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkGiftiMeshIO.cxx,v $
   Language:  C++
-  Date:      $Date: 2010-10-25 21:26:20 $
-  Version:   $Revision: 0.08 $
+  Date:      $Date: 2010-11-18 22:35:20 $
+  Version:   $Revision: 0.10 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -564,6 +564,221 @@ void GiftiMeshIO::ReadMeshInformation()
           }
         }
       }
+    else if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL )
+      {
+      MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
+      if ( m_GiftiImage->labeltable.rgba )
+        {
+        LabelColorContainerPointer colorMap = LabelColorContainer::New();
+        for ( int mm = 0; mm < m_GiftiImage->labeltable.length; ++mm )
+          {
+          RGBAPixelType pp;
+          for ( int nn = 0; nn < 4; ++nn )
+            {
+            pp.SetNthComponent(nn, m_GiftiImage->labeltable.rgba[mm * 4 + nn]);
+            }
+          colorMap->InsertElement(m_GiftiImage->labeltable.key[mm], pp);
+          }
+
+        EncapsulateMetaData< LabelColorContainerPointer >(metaDic, "colorContainer", colorMap);
+        }
+
+      if ( m_GiftiImage->labeltable.label )
+        {
+        LabelNameContainerPointer labelMap = LabelNameContainer::New();
+        for ( int mm = 0; mm < m_GiftiImage->labeltable.length; ++mm )
+          {
+          if ( m_GiftiImage->labeltable.label[mm] )
+            {
+            labelMap->InsertElement(m_GiftiImage->labeltable.key[mm], m_GiftiImage->labeltable.label[mm]);
+            }
+          else
+            {
+            labelMap->InsertElement(m_GiftiImage->labeltable.key[mm], "");
+            }
+          }
+
+        EncapsulateMetaData< LabelNameContainerPointer >(metaDic, "labelContainer", labelMap);
+        }
+
+      if ( m_GiftiImage->darray[ii]->num_dim > 0 )
+        {
+        if ( this->m_NumberOfPoints != static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) && this->m_NumberOfCells !=
+            static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) )
+          {
+          if ( this->m_NumberOfPoints == 0 && m_ReadPointData )
+            {
+            this->m_NumberOfPointPixels = m_GiftiImage->darray[ii]->dims[0];
+            }
+          else if ( this->m_NumberOfCells == 0 && !m_ReadPointData )
+            {
+            this->m_NumberOfCellPixels = m_GiftiImage->darray[ii]->dims[0];
+            }
+          else
+            {
+            itkExceptionMacro(
+              << "Could not read input gifti image because inconsistency of number of point data or number of cell data "
+              << this->m_FileName);
+            }
+          }
+        else if ( this->m_NumberOfPoints == static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) )
+          {
+          this->m_NumberOfPointPixels = m_GiftiImage->darray[ii]->dims[0];
+          }
+        else if ( this->m_NumberOfCells == static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) )
+          {
+          this->m_NumberOfCellPixels = m_GiftiImage->darray[ii]->dims[0];
+          }
+
+        if ( static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) == this->m_NumberOfPointPixels )
+          {
+          //	this->m_PointDataBufferSizeOfByte =
+          // static_cast<size_t>(m_GiftiImage->darray[ii]->nvals *
+          // m_GiftiImage->darray[ii]->nbyper);
+          this->m_UpdatePointData = true;
+          this->m_NumberOfPointPixelComponents = 1;
+          switch ( m_GiftiImage->darray[ii]->datatype )
+            {
+            case NIFTI_TYPE_INT8:
+              this->m_PointPixelComponentType = CHAR;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT8:
+              this->m_PointPixelComponentType = UCHAR;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_INT16:
+              this->m_PointPixelComponentType = SHORT;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT16:
+              this->m_PointPixelComponentType = USHORT;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_INT32:
+              this->m_PointPixelComponentType = INT;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT32:
+              this->m_PointPixelComponentType = UINT;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_INT64:
+              this->m_PointPixelComponentType = LONGLONG;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT64:
+              this->m_PointPixelComponentType = ULONGLONG;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_FLOAT32:
+              this->m_PointPixelComponentType = FLOAT;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_FLOAT64:
+              this->m_PointPixelComponentType = DOUBLE;
+              this->m_PointPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_COMPLEX64:
+              this->m_PointPixelComponentType = FLOAT;
+              this->m_PointPixelType = COMPLEX;
+              this->SetNumberOfPointPixelComponents(2);
+              break;
+            case NIFTI_TYPE_COMPLEX128:
+              this->m_PointPixelComponentType = DOUBLE;
+              this->m_PointPixelType = COMPLEX;
+              this->SetNumberOfPointPixelComponents(2);
+              break;
+            case NIFTI_TYPE_RGB24:
+              this->m_PointPixelComponentType = UCHAR;
+              this->m_PointPixelType = RGB;
+              this->SetNumberOfPointPixelComponents(3);
+              // TODO:  Need to be able to read/write RGB images into ITK.
+              //    case DT_RGB:
+              // DEBUG -- Assuming this is a triple, not quad
+              // image.setDataType( uiig::DATA_RGBQUAD );
+              break;
+            case NIFTI_TYPE_RGBA32:
+              this->m_PointPixelComponentType = UCHAR;
+              this->m_PointPixelType = RGBA;
+              this->SetNumberOfPointPixelComponents(4);
+              break;
+            default:
+              itkExceptionMacro(<< "Unknown data attribute component type");
+              break;
+            }
+          }
+        else if ( this->m_NumberOfCellPixels == static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) )
+          {
+          //	this->m_CellDataBufferSizeOfByte =
+          // static_cast<size_t>(m_GiftiImage->darray[ii]->nvals *
+          // m_GiftiImage->darray[ii]->nbyper);
+          this->m_UpdateCellData = true;
+          this->m_NumberOfCellPixelComponents = 1;
+          switch ( m_GiftiImage->darray[ii]->datatype )
+            {
+            case NIFTI_TYPE_INT8:
+              this->m_CellPixelComponentType = CHAR;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT8:
+              this->m_CellPixelComponentType = UCHAR;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_INT16:
+              this->m_CellPixelComponentType = SHORT;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT16:
+              this->m_CellPixelComponentType = USHORT;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_INT32:
+              this->m_CellPixelComponentType = INT;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_UINT32:
+              this->m_CellPixelComponentType = UINT;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_FLOAT32:
+              this->m_CellPixelComponentType = FLOAT;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_FLOAT64:
+              this->m_CellPixelComponentType = DOUBLE;
+              this->m_CellPixelType = SCALAR;
+              break;
+            case NIFTI_TYPE_COMPLEX64:
+              this->m_CellPixelComponentType = FLOAT;
+              this->m_CellPixelType = COMPLEX;
+              this->SetNumberOfCellPixelComponents(2);
+              break;
+            case NIFTI_TYPE_COMPLEX128:
+              this->m_CellPixelComponentType = DOUBLE;
+              this->m_CellPixelType = COMPLEX;
+              this->SetNumberOfCellPixelComponents(2);
+              break;
+            case NIFTI_TYPE_RGB24:
+              this->m_CellPixelComponentType = UCHAR;
+              this->m_CellPixelType = RGB;
+              this->SetNumberOfCellPixelComponents(3);
+              // TODO:  Need to be able to read/write RGB images into ITK.
+              //    case DT_RGB:
+              // DEBUG -- Assuming this is a triple, not quad
+              // image.setDataType( uiig::DATA_RGBQUAD );
+              break;
+            case NIFTI_TYPE_RGBA32:
+              this->m_CellPixelComponentType = UCHAR;
+              this->m_CellPixelType = RGBA;
+              this->SetNumberOfCellPixelComponents(4);
+              break;
+            default:
+              break;
+            }
+          }
+        }
+      }
     }
 }
 
@@ -747,7 +962,8 @@ void GiftiMeshIO::ReadPointData(void *buffer)
   // Read point or cell Data
   for ( int ii = 0; ii < m_GiftiImage->numDA; ++ii )
     {
-    if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE  || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR )
+    if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE  || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR
+         || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL )
       {
       if ( static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) == this->m_NumberOfPointPixels )
         {
@@ -774,7 +990,8 @@ void GiftiMeshIO::ReadCellData(void *buffer)
   // Read point or cell Data
   for ( int ii = 0; ii < m_GiftiImage->numDA; ++ii )
     {
-    if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE  || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR )
+    if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE  || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR
+         || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL )
       {
       if ( static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) == this->m_NumberOfCellPixels )
         {
@@ -820,6 +1037,41 @@ void GiftiMeshIO::WriteMeshInformation()
   if ( m_GiftiImage == 0 )
     {
     itkExceptionMacro(<< "Could not create a new gifti image");
+    }
+
+  // write labelTable using labelMap and colorMap
+  MetaDataDictionary &      metaDic = this->GetMetaDataDictionary();
+  LabelNameContainerPointer labelMap;
+  if ( ExposeMetaData< LabelNameContainerPointer >(metaDic, "labelContainer", labelMap) )
+    {
+    gifti_clear_LabelTable(&m_GiftiImage->labeltable);
+    m_GiftiImage->labeltable.length = labelMap->Size();
+
+    m_GiftiImage->labeltable.key = (int *)malloc( labelMap->Size() * sizeof( int ) );
+    m_GiftiImage->labeltable.label = (char **)malloc( labelMap->Size() * sizeof( char * ) );
+
+    int mm = 0;
+    for ( LabelNameContainer::ConstIterator lt = labelMap->Begin(); lt != labelMap->End(); ++lt )
+      {
+      m_GiftiImage->labeltable.key[mm] = lt->Index();
+      m_GiftiImage->labeltable.label[mm] = gifti_strdup( lt->Value().c_str() );
+      mm++;
+      }
+
+    LabelColorContainerPointer colorMap;
+    if ( ExposeMetaData< LabelColorContainerPointer >(metaDic, "colorContainer", colorMap) )
+      {
+      m_GiftiImage->labeltable.rgba = (float *)malloc( colorMap->Size() * 4 * sizeof( float ) );
+      int mm = 0;
+      for ( LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt )
+        {
+        for ( int nn = 0; nn < 4; ++nn )
+          {
+          m_GiftiImage->labeltable.rgba[mm * 4 + nn] = lt->Value().GetNthComponent(nn);
+          }
+        mm++;
+        }
+      }
     }
 
   nda = 0;
@@ -987,7 +1239,15 @@ void GiftiMeshIO::WriteMeshInformation()
     // Set intent of data array
     if ( this->m_NumberOfPointPixelComponents == 1 )
       {
-      gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_SHAPE), dalist, 1);
+      if ( m_GiftiImage->labeltable.length )
+        {
+        dtype = NIFTI_TYPE_INT32;
+        gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_LABEL), dalist, 1);
+        }
+      else
+        {
+        gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_SHAPE), dalist, 1);
+        }
       }
     else if ( this->m_NumberOfPointPixelComponents == 3 )
       {
@@ -1063,7 +1323,15 @@ void GiftiMeshIO::WriteMeshInformation()
     // Set intent of data array
     if ( this->m_NumberOfCellPixelComponents == 1 )
       {
-      gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_SHAPE), dalist, 1);
+      if ( m_GiftiImage->labeltable.length )
+        {
+        dtype = NIFTI_TYPE_INT32;
+        gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_LABEL), dalist, 1);
+        }
+      else
+        {
+        gifti_set_atr_in_DAs(m_GiftiImage, "Intent", gifti_intent_to_string(NIFTI_INTENT_SHAPE), dalist, 1);
+        }
       }
     else if ( this->m_NumberOfCellPixelComponents == 3 )
       {
@@ -1384,6 +1652,98 @@ void GiftiMeshIO::WritePointData(void *buffer)
           }
         }
       }
+    else if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL )
+      {
+      if ( static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) == this->m_NumberOfPointPixels )
+        {
+        const size_t pointDataBufferSize = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
+
+        switch ( this->m_PointPixelComponentType )
+          {
+          case UCHAR:
+            {
+            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          case CHAR:
+            {
+            ConvertBuffer(static_cast< char * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case USHORT:
+            {
+            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          case SHORT:
+            {
+            ConvertBuffer(static_cast< short * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case UINT:
+            {
+            ConvertBuffer(static_cast< unsigned int * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          case INT:
+            {
+            ConvertBuffer(static_cast< int * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case ULONG:
+            {
+            ConvertBuffer(static_cast< unsigned long * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          case LONG:
+            {
+            ConvertBuffer(static_cast< long * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case ULONGLONG:
+            {
+            ConvertBuffer(static_cast< unsigned long long * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          case LONGLONG:
+            {
+            ConvertBuffer(static_cast< long long * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case FLOAT:
+            {
+            ConvertBuffer(static_cast< float * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case DOUBLE:
+            {
+            ConvertBuffer(static_cast< double * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), pointDataBufferSize);
+            break;
+            }
+          case LDOUBLE:
+            {
+            ConvertBuffer(static_cast< long double * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          pointDataBufferSize);
+            break;
+            }
+          default:
+            {
+            itkExceptionMacro(<< "Unknown point data pixel component type" << std::endl);
+            }
+          }
+        }
+      }
     }
 
   return;
@@ -1477,6 +1837,98 @@ void GiftiMeshIO::WriteCellData(void *buffer)
             {
             ConvertBuffer(static_cast< long double * >( buffer ),
                           static_cast< float * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          default:
+            {
+            itkExceptionMacro(<< "Unknown cell data pixel component type" << std::endl);
+            }
+          }
+        }
+      }
+    else if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL )
+      {
+      if ( static_cast< unsigned long >( m_GiftiImage->darray[ii]->dims[0] ) == this->m_NumberOfCellPixels )
+        {
+        const size_t cellDataBufferSize = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
+
+        switch ( this->m_CellPixelComponentType )
+          {
+          case UCHAR:
+            {
+            ConvertBuffer(static_cast< unsigned char * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          case CHAR:
+            {
+            ConvertBuffer(static_cast< char * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case USHORT:
+            {
+            ConvertBuffer(static_cast< unsigned short * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          case SHORT:
+            {
+            ConvertBuffer(static_cast< short * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case UINT:
+            {
+            ConvertBuffer(static_cast< unsigned int * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          case INT:
+            {
+            ConvertBuffer(static_cast< int * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case ULONG:
+            {
+            ConvertBuffer(static_cast< unsigned long * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          case LONG:
+            {
+            ConvertBuffer(static_cast< long * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case ULONGLONG:
+            {
+            ConvertBuffer(static_cast< unsigned long long * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
+                          cellDataBufferSize);
+            break;
+            }
+          case LONGLONG:
+            {
+            ConvertBuffer(static_cast< long long * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case FLOAT:
+            {
+            ConvertBuffer(static_cast< float * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case DOUBLE:
+            {
+            ConvertBuffer(static_cast< double * >( buffer ), static_cast< int * >( m_GiftiImage->darray[ii]->data ), cellDataBufferSize);
+            break;
+            }
+          case LDOUBLE:
+            {
+            ConvertBuffer(static_cast< long double * >( buffer ),
+                          static_cast< int * >( m_GiftiImage->darray[ii]->data ),
                           cellDataBufferSize);
             break;
             }

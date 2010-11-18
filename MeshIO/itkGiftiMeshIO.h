@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkGiftiMeshIO.h,v $
   Language:  C++
-  Date:      $Date: 2010-10-22 21:41:44 $
-  Version:   $Revision: 0.04 $
+  Date:      $Date: 2010-11-18 22:33:44 $
+  Version:   $Revision: 0.06 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -21,11 +21,16 @@
 #pragma warning ( disable : 4786 )
 #endif
 
+#include "itkMapContainer.h"
 #include "itkMatrix.h"
 #include "itkMeshIOBase.h"
+#include "itkMetaDataObject.h"
+#include "itkRGBAPixel.h"
+
 #include "gifti_io.h"
 
 #include <fstream>
+#include <string>
 
 namespace itk
 {
@@ -38,11 +43,16 @@ class ITK_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
   /** Standard class typedefs. */
-  typedef GiftiMeshIO                Self;
-  typedef MeshIOBase                 Superclass;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SmartPointer< Self >       Pointer;
-  typedef Matrix< double, 4, 4 >     DirectionType;
+  typedef GiftiMeshIO                         Self;
+  typedef MeshIOBase                          Superclass;
+  typedef SmartPointer< const Self >          ConstPointer;
+  typedef SmartPointer< Self >                Pointer;
+  typedef Matrix< double, 4, 4 >              DirectionType;
+  typedef RGBAPixel<float>                    RGBAPixelType;
+  typedef MapContainer<int, RGBAPixelType>    LabelColorContainer;
+  typedef MapContainer<int, std::string>      LabelNameContainer;
+  typedef LabelColorContainer::Pointer        LabelColorContainerPointer;
+  typedef LabelNameContainer::Pointer         LabelNameContainerPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

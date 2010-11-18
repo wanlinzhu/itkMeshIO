@@ -85,3 +85,8 @@ ADD_TEST(MeshFileReadWriteTest_14
 	${TEST_DATA_ROOT}/lh.bert.pial.gii
 	${TEST_OUTPUT}/lh.bert.pial.gii
 	)
+ADD_TEST(MeshFileReadWriteTest_15 
+	${PROJECT_TEST_PATH}/PolylineReadWriteTest
+	${TEST_DATA_ROOT}/lh.aparc.gii
+	${TEST_OUTPUT}/lh.aparc.gii
+	)
