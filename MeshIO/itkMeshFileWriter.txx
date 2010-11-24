@@ -3,8 +3,8 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkMeshFileWriter.txx,v $
   Language:  C++
-  Date:      $Date: 2010-11-11 23:30:24 $
-  Version:   $Revision: 0.11 $
+  Date:      $Date: 2010-11-24 14:30:24 $
+  Version:   $Revision: 0.12 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
   See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
@@ -461,99 +461,11 @@ MeshFileWriter< TInputMesh >
   const InputMeshType *input = this->GetInput();
 
   itkDebugMacro(<< "Writing points: " << m_FileName);
-
-  std::string type( typeid( typename TInputMesh::PointType::ValueType ).name() );
-  if ( type == std::string( typeid( unsigned char ).name() ) )
-    {
-    unsigned char *buffer = new unsigned char[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( char ).name() ) )
-    {
-    char *buffer = new char[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned short ).name() ) )
-    {
-    unsigned short *buffer = new unsigned short[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( short ).name() ) )
-    {
-    short *buffer = new short[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned int ).name() ) )
-    {
-    unsigned int *buffer = new unsigned int[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( int ).name() ) )
-    {
-    int *buffer = new int[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned long ).name() ) )
-    {
-    unsigned long *buffer = new unsigned long[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long ).name() ) )
-    {
-    long *buffer = new long[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned long long ).name() ) )
-    {
-    unsigned long long *buffer = new unsigned long long[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long long ).name() ) )
-    {
-    long long *buffer = new long long[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( float ).name() ) )
-    {
-    float *buffer = new float[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( double ).name() ) )
-    {
-    double *buffer = new double[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long double ).name() ) )
-    {
-    long double *buffer = new long double[input->GetNumberOfPoints() * TInputMesh::PointDimension];
-    CopyPointsToBuffer(buffer);
-    m_MeshIO->WritePoints(buffer);
-    delete[] buffer;
-    }
+  unsigned long pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
+  typename TInputMesh::PointType::ValueType * buffer = new typename TInputMesh::PointType::ValueType[pointsBufferSize];
+  CopyPointsToBuffer(buffer);
+  m_MeshIO->WritePoints(buffer);
+  delete[] buffer;
 }
 
 template< class TInputMesh >
@@ -573,98 +485,10 @@ MeshFileWriter< TInputMesh >
 
   m_MeshIO->SetCellBufferSize(cellsBufferSize);
 
-  std::string type( typeid( typename TInputMesh::PointIdentifier ).name() );
-  if ( type == std::string( typeid( unsigned char ).name() ) )
-    {
-    unsigned char *buffer = new unsigned char[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( char ).name() ) )
-    {
-    char *buffer = new char[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned short ).name() ) )
-    {
-    unsigned short *buffer = new unsigned short[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( short ).name() ) )
-    {
-    short *buffer = new short[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned int ).name() ) )
-    {
-    unsigned int *buffer = new unsigned int[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( int ).name() ) )
-    {
-    int *buffer = new int[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned long ).name() ) )
-    {
-    unsigned long *buffer = new unsigned long[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long ).name() ) )
-    {
-    long *buffer = new long[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( unsigned long long ).name() ) )
-    {
-    unsigned long long *buffer = new unsigned long long[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long long ).name() ) )
-    {
-    long long *buffer = new long long[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( float ).name() ) )
-    {
-    float *buffer = new float[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( double ).name() ) )
-    {
-    double *buffer = new double[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
-  else if ( type == std::string( typeid( long double ).name() ) )
-    {
-    long double *buffer = new long double[cellsBufferSize];
-    CopyCellsToBuffer(buffer);
-    m_MeshIO->WriteCells(buffer);
-    delete[] buffer;
-    }
+  typename TInputMesh::PointIdentifier * buffer = new typename TInputMesh::PointIdentifier[cellsBufferSize];
+  CopyCellsToBuffer(buffer);
+  m_MeshIO->WriteCells(buffer);
+  delete[] buffer;
 }
 
 template< class TInputMesh >
@@ -681,98 +505,12 @@ MeshFileWriter< TInputMesh >
     unsigned long numberOfComponents = input->GetPointData()->Size()
                                        * MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNumberOfComponents(
       input->GetPointData()->ElementAt(0) );
-    std::string type( typeid( typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      unsigned char *buffer = new unsigned char[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      char *buffer = new char[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      unsigned short *buffer = new unsigned short[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      short *buffer = new short[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      unsigned int *buffer = new unsigned int[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      int *buffer = new int[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      unsigned long *buffer = new unsigned long[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      long *buffer = new long[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      unsigned long long *buffer = new unsigned long long[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      long long *buffer = new long long[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      float *buffer = new float[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      double *buffer = new double[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      long double *buffer = new long double[numberOfComponents];
-      CopyPointDataToBuffer(buffer);
-      m_MeshIO->WritePointData(buffer);
-      delete[] buffer;
-      }
+
+    typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType * buffer =
+      new typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType[numberOfComponents];
+    CopyPointDataToBuffer(buffer);
+    m_MeshIO->WritePointData(buffer);
+    delete[] buffer;
     }
 }
 
@@ -790,98 +528,12 @@ MeshFileWriter< TInputMesh >
     unsigned long numberOfComponents = input->GetCellData()->Size()
                                        * MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents(
       input->GetCellData()->ElementAt(0) );
-    std::string type( typeid( typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      unsigned char *buffer = new unsigned char[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      char *buffer = new char[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      unsigned short *buffer = new unsigned short[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      short *buffer = new short[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      unsigned int *buffer = new unsigned int[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      int *buffer = new int[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      unsigned long *buffer = new unsigned long[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      long *buffer = new long[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      unsigned long long *buffer = new unsigned long long[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      long long *buffer = new long long[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      float *buffer = new float[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      double *buffer = new double[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      long double *buffer = new long double[numberOfComponents];
-      CopyCellDataToBuffer(buffer);
-      m_MeshIO->WriteCellData(buffer);
-      delete[] buffer;
-      }
+
+    typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType * buffer =
+      new typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType[numberOfComponents];
+    CopyCellDataToBuffer(buffer);
+    m_MeshIO->WriteCellData(buffer);
+    delete[] buffer;
     }
 }
 
@@ -889,16 +541,20 @@ template< class TInputMesh >
 template< class Output >
 void MeshFileWriter< TInputMesh >::CopyPointsToBuffer(Output *data)
 {
-  const InputMeshType *input = this->GetInput();
+  const typename InputMeshType::PointsContainer * points = this->GetInput()->GetPoints();
 
   typename TInputMesh::PointType point;
-  for ( typename TInputMesh::PointIdentifier id = 0; id < input->GetNumberOfPoints(); id++ )
+  unsigned long ind = NumericTraits< unsigned long >::Zero;
+  typename TInputMesh::PointsContainerConstIterator pter = points->Begin();
+
+  while ( pter != points->End() )
     {
-    input->GetPoint(id, &point);
     for ( unsigned int jj = 0; jj < TInputMesh::PointDimension; jj++ )
       {
-      data[id * TInputMesh::PointDimension + jj] = static_cast< Output >( point[jj] );
+      data[ind++] = static_cast< Output >( pter.Value()[jj] );
       }
+
+    ++pter;
     }
 }
 
@@ -907,17 +563,19 @@ template< class Output >
 void MeshFileWriter< TInputMesh >::CopyCellsToBuffer(Output *data)
 {
   // Get input mesh pointer
-  const InputMeshType *input = this->GetInput();
+  const typename InputMeshType::CellsContainer * cells = this->GetInput()->GetCells();
 
   // Define required variables
   typename TInputMesh::PointIdentifier const  *ptIds;
-  typename TInputMesh::CellAutoPointer cellPtr;
+  typename TInputMesh::CellType * cellPtr;
 
-  // Traverse each cell
+  // For each cell
   typename TInputMesh::CellIdentifier ind = NumericTraits< typename TInputMesh::CellIdentifier >::Zero;
-  for ( typename TInputMesh::CellIdentifier id = 0; id < input->GetNumberOfCells(); id++ )
+  typename TInputMesh::CellsContainerConstIterator cter = cells->Begin();
+  while ( cter != cells->End() )
     {
-    input->GetCell(id, cellPtr);
+    cellPtr = cter.Value();
+
     // Write the cell type
     switch ( cellPtr->GetType() )
       {
@@ -926,11 +584,9 @@ void MeshFileWriter< TInputMesh >::CopyCellsToBuffer(Output *data)
         break;
       case InputMeshCellType::LINE_CELL:
         data[ind++] = static_cast< Output >( MeshIOBase::LINE_CELL );
-        //    data[ind++] = static_cast< Output >( MeshIOBase::POLYLINE_CELL );
         break;
       case InputMeshCellType::TRIANGLE_CELL:
         data[ind++] = static_cast< Output >( MeshIOBase::TRIANGLE_CELL );
-        // data[ind++] = static_cast<Output>(MeshIOBase::POLYGON_CELL);
         break;
       case InputMeshCellType::QUADRILATERAL_CELL:
         data[ind++] = static_cast< Output >( MeshIOBase::QUADRILATERAL_CELL );
@@ -964,6 +620,8 @@ void MeshFileWriter< TInputMesh >::CopyCellsToBuffer(Output *data)
       {
       data[ind++] = static_cast< Output >( ptIds[ii] );
       }
+
+    ++cter;
     }
 }
 
@@ -971,24 +629,27 @@ template< class TInputMesh >
 template< class Output >
 void MeshFileWriter< TInputMesh >::CopyPointDataToBuffer(Output *data)
 {
-  const InputMeshType *input = this->GetInput();
+  const typename InputMeshType::PointDataContainer * pointData = this->GetInput()->GetPointData();
 
   //  typename TInputMesh::PixelType value = NumericTraits< typename
   // TInputMesh::PixelType >::ZeroValue();
   // TODO? NumericTraitsVariableLengthVectorPixel should define ZeroValue()
   // Should define NumericTraitsArrayPixel
-  typename TInputMesh::PixelType value;
-  unsigned int numberOfComponents = MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNumberOfComponents(
-    input->GetPointData()->ElementAt(0) );
 
-  for ( typename TInputMesh::PointIdentifier id = 0; id < input->GetPointData()->Size(); id++ )
+  unsigned int numberOfComponents = MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNumberOfComponents(
+    pointData->ElementAt(0) );
+
+  unsigned long ind = 0;
+  typename TInputMesh::PointDataContainer::ConstIterator pter = pointData->Begin();
+  while ( pter != pointData->End() )
     {
-    input->GetPointData(id, &value);
     for ( unsigned int jj = 0; jj < numberOfComponents; jj++ )
       {
-      data[id * numberOfComponents + jj] = static_cast< Output >
-                                           ( MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNthComponent(jj, value) );
+      data[ind++] = static_cast< Output >
+                    ( MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNthComponent( jj, pter.Value() ) );
       }
+
+    ++pter;
     }
 }
 
@@ -996,24 +657,25 @@ template< class TInputMesh >
 template< class Output >
 void MeshFileWriter< TInputMesh >::CopyCellDataToBuffer(Output *data)
 {
-  const InputMeshType *input = this->GetInput();
+  const typename InputMeshType::CellDataContainer * cellData = this->GetInput()->GetCellData();
 
   //  typename TInputMesh::CellPixelType value = NumericTraits< typename
   // TInputMesh::CellPixelType >::ZeroValue();
   // TODO? NumericTraitsVariableLengthVectorPixel should define ZeroValue()
   // Should define NumericTraitsArrayPixel
-  typename TInputMesh::CellPixelType value;
-  unsigned int numberOfComponents = MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents( input->GetCellData(
-                                                                                                                          )->ElementAt(0) );
 
-  for ( typename TInputMesh::PointIdentifier id = 0; id < input->GetCellData()->Size(); id++ )
+  unsigned int numberOfComponents = MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents(
+     cellData->ElementAt(0) );
+  unsigned long ind = 0;
+  typename TInputMesh::CellDataContainer::ConstIterator cter = cellData->Begin();
+  while ( cter != cellData->End() )
     {
-    input->GetCellData(id, &value);
     for ( unsigned int jj = 0; jj < numberOfComponents; jj++ )
       {
-      data[id * numberOfComponents + jj] = static_cast< Output >
-                                           ( MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNthComponent(jj, value) );
+      data[ind++] = static_cast< Output >
+                    ( MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNthComponent( jj, cter.Value() ) );
       }
+    ++cter;
     }
 }
 

@@ -3,7 +3,7 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkGiftiMeshIO.h,v $
   Language:  C++
-  Date:      $Date: 2010-11-18 22:33:44 $
+  Date:      $Date: 2010-11-22 13:56:44 $
   Version:   $Revision: 0.06 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -67,6 +67,11 @@ public:
   void SetDirection(const DirectionType direction);
 
   itkGetConstReferenceMacro(Direction, DirectionType);
+
+  LabelColorContainerPointer GetLabelColorTable();
+  LabelNameContainerPointer  GetLabelNameTable();
+  void SetLabelColorTable(const LabelColorContainer * colorMap);
+  void SetLabelNameTable(const LabelNameContainer * labelMap);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

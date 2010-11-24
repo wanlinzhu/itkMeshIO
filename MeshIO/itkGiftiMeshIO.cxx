@@ -3,7 +3,7 @@
   Program:   Insight Segmentation & Registration Toolkit
   Module:    $RCSfile: itkGiftiMeshIO.cxx,v $
   Language:  C++
-  Date:      $Date: 2010-11-18 22:35:20 $
+  Date:      $Date: 2010-11-22 13:56:20 $
   Version:   $Revision: 0.10 $
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -70,6 +70,44 @@ void GiftiMeshIO::SetDirection(const DirectionType direction)
       }
     }
 
+  this->Modified();
+}
+
+GiftiMeshIO::LabelColorContainerPointer GiftiMeshIO::GetLabelColorTable()
+{
+  LabelColorContainerPointer colorMap;
+  if(ExposeMetaData< LabelColorContainerPointer >(this->GetMetaDataDictionary(), "colorContainer", colorMap))
+    {
+    return colorMap;
+    }
+    else
+    {
+    return NULL;
+    }
+}
+
+GiftiMeshIO::LabelNameContainerPointer GiftiMeshIO::GetLabelNameTable()
+{
+  LabelNameContainerPointer labelMap;
+  if(ExposeMetaData< LabelNameContainerPointer >(this->GetMetaDataDictionary(), "labelContainer", labelMap))
+    {
+    return labelMap;
+    }
+    else
+    {
+    return NULL;
+    }
+}
+
+void GiftiMeshIO::SetLabelColorTable(const LabelColorContainer * colorMap)
+{
+  EncapsulateMetaData< LabelColorContainerPointer >(this->GetMetaDataDictionary(), "colorContainer", const_cast<LabelColorContainer *>(colorMap));
+  this->Modified();
+}
+
+void GiftiMeshIO::SetLabelNameTable(const LabelNameContainer * labelMap)
+{
+  EncapsulateMetaData< LabelNameContainerPointer >(this->GetMetaDataDictionary(), "labelContainer", const_cast<LabelNameContainer *>(labelMap));
   this->Modified();
 }
 
