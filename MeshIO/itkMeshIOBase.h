@@ -141,233 +141,231 @@ public:
   itkSetEnumMacro(CellPixelComponentType, IOComponentType);
   itkGetEnumMacro(CellPixelComponentType, IOComponentType);
 
-  /** Method return component information */
-  virtual const std::type_info & GetComponentTypeInfo(IOComponentType componentType) const;
+  template< typename T >
+  struct MapComponentType {
+    static const IOComponentType CType = UNKNOWNCOMPONENTTYPE;
+  };
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, T itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const T & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(1);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(SCALAR);
       }
     else
       {
       SetNumberOfCellPixelComponents(1);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(SCALAR);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, RGBPixel< T > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const RGBPixel< T > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(3);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(RGB);
       }
     else
       {
       SetNumberOfCellPixelComponents(3);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(RGB);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, RGBAPixel< T > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const RGBAPixel< T > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(4);
-      SetPointPixelComponentType(ntype);
-      SetPointPixelType(RGB);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
+      SetPointPixelType(RGBA);
       }
     else
       {
       SetNumberOfCellPixelComponents(4);
-      SetCellPixelComponentType(ntype);
-      SetCellPixelType(RGB);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
+      SetCellPixelType(RGBA);
       }
   }
 
   template< typename T, unsigned int VLength >
-  void SetPixelType(IOComponentType ntype, Vector< T, VLength > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const Vector< T, VLength > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(VLength);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(VECTOR);
       }
     else
       {
       SetNumberOfCellPixelComponents(VLength);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(VECTOR);
       }
   }
 
   template< typename T, unsigned int VLength >
-  void SetPixelType(IOComponentType ntype, CovariantVector< T, VLength > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const CovariantVector< T, VLength > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(VLength);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(COVARIANTVECTOR);
       }
     else
       {
       SetNumberOfCellPixelComponents(VLength);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(COVARIANTVECTOR);
       }
   }
 
   template< typename T, unsigned int VLength >
-  void SetPixelType(IOComponentType ntype, FixedArray< T, VLength > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const FixedArray< T, VLength > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(VLength);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(FIXEDARRAY);
       }
     else
       {
       SetNumberOfCellPixelComponents(VLength);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(FIXEDARRAY);
       }
   }
 
   template< typename T, unsigned int VLength >
-  void SetPixelType(IOComponentType ntype, SymmetricSecondRankTensor< T, VLength > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const SymmetricSecondRankTensor< T, VLength > itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(VLength * ( VLength + 1 ) / 2);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(SYMMETRICSECONDRANKTENSOR);
       }
     else
       {
       SetNumberOfCellPixelComponents(VLength * ( VLength + 1 ) / 2);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(SYMMETRICSECONDRANKTENSOR);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, DiffusionTensor3D< T > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const DiffusionTensor3D< T > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(6);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(DIFFUSIONTENSOR3D);
       }
     else
       {
       SetNumberOfCellPixelComponents(6);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(DIFFUSIONTENSOR3D);
       }
   }
 
   template< typename T, unsigned int NR, unsigned int NC >
-  void SetPixelType(IOComponentType ntype, Matrix< T, NR, NC > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const Matrix< T, NR, NC > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(NR * NC);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(MATRIX);
       }
     else
       {
       SetNumberOfCellPixelComponents(NR * NC);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(MATRIX);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, std::complex< T > itkNotUsed(dummy), bool UsePointPixel = true)
+  void SetPixelType(const std::complex< T > & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents(2);
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(COMPLEX);
       }
     else
       {
       SetNumberOfCellPixelComponents(2);
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(COMPLEX);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, Array< T > array, bool UsePointPixel = true)
+  void SetPixelType(const Array< T > & array, bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents( array.Size() );
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(ARRAY);
       }
     else
       {
       SetNumberOfCellPixelComponents( array.Size() );
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(ARRAY);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, VariableLengthVector< T > vector, bool UsePointPixel = true)
+  void SetPixelType(const VariableLengthVector< T > & vector, bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents( vector.Size() );
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(VARIABLELENGTHVECTOR);
       }
     else
       {
       SetNumberOfCellPixelComponents( vector.Size() );
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(VARIABLELENGTHVECTOR);
       }
   }
 
   template< typename T >
-  void SetPixelType(IOComponentType ntype, VariableSizeMatrix< T > matrix, bool UsePointPixel = true)
+  void SetPixelType(const VariableSizeMatrix< T > & matrix, bool UsePointPixel = true)
   {
     if ( UsePointPixel )
       {
       SetNumberOfPointPixelComponents( matrix.Rows() * matrix.Cols() );
-      SetPointPixelComponentType(ntype);
+      SetPointPixelComponentType(MapComponentType< T >::CType);
       SetPointPixelType(VARIABLESIZEMATRIX);
       }
     else
       {
       SetNumberOfCellPixelComponents( matrix.Rows() * matrix.Cols() );
-      SetCellPixelComponentType(ntype);
+      SetCellPixelComponentType(MapComponentType< T >::CType);
       SetCellPixelType(VARIABLESIZEMATRIX);
       }
   }
-
-  void SetPointPixelTypeInfo(const std::type_info & ptype);
-
-  void SetCellPixelTypeInfo(const std::type_info & ptype);
 
   /** Set/Get the number of components per pixel in the mesh. This may
      * be set by the reading process. For SCALAR pixel types,
@@ -751,6 +749,27 @@ private:
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };
+#define MESHIOBASE_TYPEMAP(type, ctype)                    \
+  template< > \
+  struct MeshIOBase:: MapComponentType< type >     \
+  {                                                     \
+    static const IOComponentType CType = ctype;           \
+  }
+
+MESHIOBASE_TYPEMAP(unsigned char, UCHAR);
+MESHIOBASE_TYPEMAP(char, CHAR);
+MESHIOBASE_TYPEMAP(unsigned short, USHORT);
+MESHIOBASE_TYPEMAP(short, SHORT);
+MESHIOBASE_TYPEMAP(unsigned int, UINT);
+MESHIOBASE_TYPEMAP(int, INT);
+MESHIOBASE_TYPEMAP(unsigned long, ULONG);
+MESHIOBASE_TYPEMAP(long, LONG);
+MESHIOBASE_TYPEMAP(unsigned long long, ULONGLONG);
+MESHIOBASE_TYPEMAP(long long, LONGLONG);
+MESHIOBASE_TYPEMAP(float, FLOAT);
+MESHIOBASE_TYPEMAP(double, DOUBLE);
+MESHIOBASE_TYPEMAP(long double, LDOUBLE);
+#undef MESHIOBASE_TYPEMAP
 } // end namespace itk
 
 #endif

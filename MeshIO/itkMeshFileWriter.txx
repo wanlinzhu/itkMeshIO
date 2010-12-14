@@ -172,60 +172,7 @@ MeshFileWriter< TInputMesh >
     m_MeshIO->SetUpdatePoints(true);
     m_MeshIO->SetNumberOfPoints( input->GetNumberOfPoints() );
     m_MeshIO->SetPointDimension(TInputMesh::PointDimension);
-
-    std::string type( typeid( typename TInputMesh::PointType::ValueType ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::UCHAR);
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::CHAR);
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::USHORT);
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::SHORT);
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::UINT);
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::INT);
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::ULONG);
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::LONG);
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::ULONGLONG);
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::LONGLONG);
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::FLOAT);
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::DOUBLE);
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      m_MeshIO->SetPointComponentType(MeshIOBase::LDOUBLE);
-      }
+    m_MeshIO->SetPointComponentType(MeshIOBase::MapComponentType< typename TInputMesh::PointType::ValueType >::CType);
     }
 
   // Whether write cells
@@ -233,60 +180,7 @@ MeshFileWriter< TInputMesh >
     {
     m_MeshIO->SetUpdateCells(true);
     m_MeshIO->SetNumberOfCells( input->GetNumberOfCells() );
-
-    std::string type( typeid( typename TInputMesh::PointIdentifier ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::UCHAR);
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::CHAR);
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::USHORT);
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::SHORT);
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::UINT);
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::INT);
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::ULONG);
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::LONG);
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::ULONGLONG);
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::LONGLONG);
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::FLOAT);
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::DOUBLE);
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      m_MeshIO->SetCellComponentType(MeshIOBase::LDOUBLE);
-      }
+    m_MeshIO->SetCellComponentType(MeshIOBase::MapComponentType< typename TInputMesh::PointIdentifier >::CType);
     }
 
   // Whether write point data
@@ -296,60 +190,7 @@ MeshFileWriter< TInputMesh >
     m_MeshIO->SetNumberOfPointPixels( input->GetPointData()->Size() );
     // m_MeshIO->SetNumberOfPointPixelComponents(MeshConvertPixelTraits<typename
     // TInputMesh::PixelType>::GetNumberOfComponents());
-
-    std::string type( typeid( typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::UCHAR, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::CHAR, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::USHORT, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::SHORT, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::UINT, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::INT, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::ULONG, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LONG, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::ULONGLONG, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LONGLONG, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::FLOAT, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::DOUBLE, input->GetPointData()->ElementAt(0), true);
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LDOUBLE, input->GetPointData()->ElementAt(0), true);
-      }
+    m_MeshIO->SetPixelType(input->GetPointData()->ElementAt(0), true);
     }
 
   // Whether write cell data
@@ -359,60 +200,7 @@ MeshFileWriter< TInputMesh >
     m_MeshIO->SetNumberOfCellPixels( input->GetCellData()->Size() );
     // m_MeshIO->SetNumberOfCellPixelComponents(MeshConvertPixelTraits<typename
     // TInputMesh::CellPixelType>::GetNumberOfComponents());
-
-    std::string type( typeid( typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType ).name() );
-    if ( type == std::string( typeid( unsigned char ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::UCHAR, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( char ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::CHAR, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( unsigned short ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::USHORT, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( short ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::SHORT, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( unsigned int ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::UINT, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( int ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::INT, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( unsigned long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::ULONG, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LONG, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( unsigned long long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::ULONGLONG, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( long long ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LONGLONG, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( float ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::FLOAT, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( double ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::DOUBLE, input->GetCellData()->ElementAt(0), false);
-      }
-    else if ( type == std::string( typeid( long double ).name() ) )
-      {
-      m_MeshIO->SetPixelType(MeshIOBase::LDOUBLE, input->GetCellData()->ElementAt(0), false);
-      }
+    m_MeshIO->SetPixelType(input->GetCellData()->ElementAt(0), false);
     }
 
   this->InvokeEvent( StartEvent() );
@@ -666,7 +454,7 @@ void MeshFileWriter< TInputMesh >::CopyCellDataToBuffer(Output *data)
   // Should define NumericTraitsArrayPixel
 
   unsigned int numberOfComponents = MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents(
-     cellData->ElementAt(0) );
+    cellData->ElementAt(0) );
   unsigned long ind = 0;
   typename TInputMesh::CellDataContainer::ConstIterator cter = cellData->Begin();
   while ( cter != cellData->End() )

@@ -67,44 +67,6 @@ void MeshIOBase::AddSupportedWriteExtension(const char *extension)
   this->m_SupportedWriteExtensions.push_back(extension);
 }
 
-const std::type_info & MeshIOBase::GetComponentTypeInfo(IOComponentType componentType) const
-{
-  switch ( componentType )
-    {
-    case UCHAR:
-      return typeid( unsigned char );
-    case CHAR:
-      return typeid( char );
-    case USHORT:
-      return typeid( unsigned short );
-    case SHORT:
-      return typeid( short );
-    case UINT:
-      return typeid( unsigned int );
-    case INT:
-      return typeid( int );
-    case ULONG:
-      return typeid( unsigned long );
-    case LONG:
-      return typeid( long );
-    case LONGLONG:
-      return typeid( long long );
-    case ULONGLONG:
-      return typeid( unsigned long long );
-    case FLOAT:
-      return typeid( float );
-    case DOUBLE:
-      return typeid( double );
-    case LDOUBLE:
-      return typeid( long double );
-    case UNKNOWNCOMPONENTTYPE:
-    default:
-      itkExceptionMacro ("Unknown component type: " << componentType);
-    }
-
-  return typeid( MeshIOBase::UnknownType );
-}
-
 unsigned int MeshIOBase::GetComponentSize(IOComponentType componentType) const
 {
   switch ( componentType )
