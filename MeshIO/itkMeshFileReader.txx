@@ -863,7 +863,7 @@ void MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTrait
   else
     {
     MeshFileReaderException e(__FILE__, __LINE__);
-    OStringStream           msg;
+    std::ostringstream           msg;
     msg << "Couldn't convert component type: "
         << std::endl << "    "
         << m_MeshIO->GetComponentTypeAsString( m_MeshIO->GetPointPixelComponentType() )
@@ -939,7 +939,7 @@ void MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTrait
   else
     {
     MeshFileReaderException e(__FILE__, __LINE__);
-    OStringStream           msg;
+    std::ostringstream           msg;
     msg << "Couldn't convert component type: "
         << std::endl << "    "
         << m_MeshIO->GetComponentTypeAsString( m_MeshIO->GetCellPixelComponentType() )
