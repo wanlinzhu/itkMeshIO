@@ -3,13 +3,13 @@ SET(TEST_DATA_ROOT ${CMAKE_SOURCE_DIR}/Data)
 SET(TEST_OUTPUT ${CMAKE_BINARY_DIR}/Testing/Temporary)
 
 ADD_EXECUTABLE(MeshFileReadWriteTest MeshFileReadWriteTest.cxx )
-TARGET_LINK_LIBRARIES(MeshFileReadWriteTest ITKQuadEdgeMesh ITKMeshIO)
+TARGET_LINK_LIBRARIES(MeshFileReadWriteTest ITKMeshIO)
 
 ADD_EXECUTABLE(MeshFileReadWriteVectorAttributeTest MeshFileReadWriteVectorAttributeTest.cxx )
-TARGET_LINK_LIBRARIES(MeshFileReadWriteVectorAttributeTest ITKQuadEdgeMesh ITKMeshIO)
+TARGET_LINK_LIBRARIES(MeshFileReadWriteVectorAttributeTest ITKMeshIO)
 
 ADD_EXECUTABLE(PolylineReadWriteTest PolylineReadWriteTest.cxx )
-TARGET_LINK_LIBRARIES(PolylineReadWriteTest ITKQuadEdgeMesh ITKMeshIO)
+TARGET_LINK_LIBRARIES(PolylineReadWriteTest ITKMeshIO)
 
 ADD_TEST(MeshFileReadWriteTest_1 
 	${PROJECT_TEST_PATH}/MeshFileReadWriteTest
