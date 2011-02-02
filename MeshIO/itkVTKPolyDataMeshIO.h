@@ -464,6 +464,14 @@ protected:
             }
           outputFile << '\n';
           }
+        else
+          {
+          index += nn;
+          }
+        else
+          {
+          index += nn;
+          }
         }
       }
 
@@ -558,6 +566,10 @@ protected:
             outputFile << " " << buffer[index++];
             }
           outputFile << '\n';
+          }
+        else
+          {
+          index += nn;
           }
         }
       }
