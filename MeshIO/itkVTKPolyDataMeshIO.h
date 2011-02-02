@@ -462,9 +462,8 @@ protected:
             {
             outputFile << " " << buffer[index++];
             }
+          outputFile << '\n';
           }
-
-        outputFile << '\n';
         }
       }
 
@@ -558,9 +557,8 @@ protected:
             {
             outputFile << " " << buffer[index++];
             }
+          outputFile << '\n';
           }
-
-        outputFile << '\n';
         }
       }
   }
