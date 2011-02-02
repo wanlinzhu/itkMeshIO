@@ -147,6 +147,10 @@ protected:
           numberOfPolygons++;
           numberOfPolygonIndices += nn + 1;
           break;
+        case QUADRILATERAL_CELL:
+          numberOfPolygons++;
+          numberOfPolygonIndices += nn + 1;
+          break;
         default:
           itkExceptionMacro(<< "Currently we dont support this cell type");
         }
@@ -545,7 +549,9 @@ protected:
         {
         MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
         unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
-        if ( cellType == POLYGON_CELL || cellType == TRIANGLE_CELL )
+        if ( cellType == POLYGON_CELL ||
+             cellType == TRIANGLE_CELL ||
+             cellType == QUADRILATERAL_CELL )
           {
           outputFile << nn;
           for ( unsigned int jj = 0; jj < nn; jj++ )
