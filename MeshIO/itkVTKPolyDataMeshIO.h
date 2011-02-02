@@ -468,10 +468,6 @@ protected:
           {
           index += nn;
           }
-        else
-          {
-          index += nn;
-          }
         }
       }
 
