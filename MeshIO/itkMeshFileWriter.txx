@@ -142,8 +142,10 @@ MeshFileWriter< TInputMesh >
   // of the ProcessObject.
   InputMeshType *nonConstInput = const_cast< InputMeshType * >( input );
 
-  // Update the meta data
-  nonConstInput->UpdateOutputInformation();
+  // Update the input.
+  // Streaming is not supported at this time.
+  nonConstInput->SetRequestedRegionToLargestPossibleRegion();
+  nonConstInput->Update();
 
   if ( m_FileTypeIsBINARY )
     {
