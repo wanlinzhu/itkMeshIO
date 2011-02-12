@@ -745,12 +745,15 @@ protected:
       }
 
     Indent indent(2);
-    for ( unsigned long ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
+    unsigned long ii;
+    unsigned long jj;
+    for ( ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
       {
-      for ( unsigned int jj = 0; jj < this->m_NumberOfPointPixelComponents; jj++ )
+      for ( jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; jj++ )
         {
         outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj] << indent;
         }
+      outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj];
       outputFile << '\n';
       }
 
@@ -875,12 +878,15 @@ protected:
       }
 
     Indent indent(2);
-    for ( unsigned long ii = 0; ii < this->m_NumberOfCellPixels; ii++ )
+    unsigned long ii;
+    unsigned long jj;
+    for ( ii = 0; ii < this->m_NumberOfCellPixels; ii++ )
       {
-      for ( unsigned int jj = 0; jj < this->m_NumberOfCellPixelComponents; jj++ )
+      for ( jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; jj++ )
         {
         outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
         }
+      outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj];
       outputFile << '\n';
       }
 
