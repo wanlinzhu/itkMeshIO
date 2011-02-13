@@ -745,16 +745,77 @@ protected:
       }
 
     Indent indent(2);
-    unsigned long ii;
-    unsigned long jj;
-    for ( ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
+    if ( this->m_PointPixelType == SYMMETRICSECONDRANKTENSOR )
       {
-      for ( jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; jj++ )
+      T *ptr = buffer;
+      unsigned long i = 0;
+      const unsigned long num = this->m_NumberOfPointPixelComponents * this->m_NumberOfPointPixels;
+      if( this->m_NumberOfPointPixelComponents == 3 )
         {
-        outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj] << indent;
+        T zero( itk::NumericTraits<T>::Zero );
+        T e12;
+        while( i < num )
+          {
+          // row 1
+          outputFile << *ptr++ << indent;
+          e12 = *ptr++;
+          outputFile << e12 << indent;
+          outputFile << zero << '\n';
+          // row 2
+          outputFile << e12 << indent;
+          outputFile << *ptr++ << indent;
+          outputFile << zero << '\n';
+          // row 3
+          outputFile << zero << indent << zero << indent << zero << "\n\n";
+          i += 3;
+          }
         }
-      outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj];
-      outputFile << '\n';
+      else if( this->m_NumberOfPointPixelComponents == 3 )
+        {
+        T e12;
+        T e13;
+        T e23;
+        while( i < num )
+          {
+          // row 1
+          outputFile << *ptr++ << indent;
+          e12 = *ptr++;
+          outputFile << e12 << indent;
+          e13 = *ptr++;
+          outputFile << e13 << '\n';
+          // row 2
+          outputFile << e12 << indent;
+          outputFile << *ptr++ << indent;
+          e23 = *ptr++;
+          outputFile << e23 << '\n';
+          // row 3
+          outputFile << e13 << indent;
+          outputFile << e23 << indent;
+          outputFile << *ptr++ << "\n\n";
+          i += 6;
+          }
+        }
+      else
+        {
+        ::itk::ExceptionObject e_(__FILE__, __LINE__,
+                                  "itk::ERROR: VTKImageIO2: Unsupported number of components in tensor.",
+                                  ITK_LOCATION);
+        throw e_;
+        }
+      }
+    else // not tensor
+      {
+      unsigned long ii;
+      unsigned long jj;
+      for ( ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
+        {
+        for ( jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; jj++ )
+          {
+          outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj] << indent;
+          }
+        outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj];
+        outputFile << '\n';
+        }
       }
 
     return;
@@ -878,16 +939,77 @@ protected:
       }
 
     Indent indent(2);
-    unsigned long ii;
-    unsigned long jj;
-    for ( ii = 0; ii < this->m_NumberOfCellPixels; ii++ )
+    if ( this->m_CellPixelType == SYMMETRICSECONDRANKTENSOR )
       {
-      for ( jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; jj++ )
+      T *ptr = buffer;
+      unsigned long i = 0;
+      const unsigned long num = this->m_NumberOfCellPixelComponents * this->m_NumberOfCellPixels;
+      if( this->m_NumberOfCellPixelComponents == 3 )
         {
-        outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
+        T zero( itk::NumericTraits<T>::Zero );
+        T e12;
+        while( i < num )
+          {
+          // row 1
+          outputFile << *ptr++ << indent;
+          e12 = *ptr++;
+          outputFile << e12 << indent;
+          outputFile << zero << '\n';
+          // row 2
+          outputFile << e12 << indent;
+          outputFile << *ptr++ << indent;
+          outputFile << zero << '\n';
+          // row 3
+          outputFile << zero << indent << zero << indent << zero << "\n\n";
+          i += 3;
+          }
         }
-      outputFile << buffer[ii * this->m_NumberOfPointPixelComponents + jj];
-      outputFile << '\n';
+      else if( this->m_NumberOfCellPixelComponents == 3 )
+        {
+        T e12;
+        T e13;
+        T e23;
+        while( i < num )
+          {
+          // row 1
+          outputFile << *ptr++ << indent;
+          e12 = *ptr++;
+          outputFile << e12 << indent;
+          e13 = *ptr++;
+          outputFile << e13 << '\n';
+          // row 2
+          outputFile << e12 << indent;
+          outputFile << *ptr++ << indent;
+          e23 = *ptr++;
+          outputFile << e23 << '\n';
+          // row 3
+          outputFile << e13 << indent;
+          outputFile << e23 << indent;
+          outputFile << *ptr++ << "\n\n";
+          i += 6;
+          }
+        }
+      else
+        {
+        ::itk::ExceptionObject e_(__FILE__, __LINE__,
+                                  "itk::ERROR: VTKImageIO2: Unsupported number of components in tensor.",
+                                  ITK_LOCATION);
+        throw e_;
+        }
+      }
+    else // not tensor
+      {
+      unsigned long ii;
+      unsigned long jj;
+      for ( ii = 0; ii < this->m_NumberOfCellPixels; ii++ )
+        {
+        for ( jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; jj++ )
+          {
+          outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
+          }
+        outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj];
+        outputFile << '\n';
+        }
       }
 
     return;
