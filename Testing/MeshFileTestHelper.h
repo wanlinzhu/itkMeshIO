@@ -103,8 +103,8 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
         std::cerr << "Output point = " << pt1.Value() << std::endl;
         return EXIT_FAILURE;
         }
-       pt0++;
-       pt1++;
+       ++pt0;
+       ++pt1;
       }
     }
 
@@ -133,11 +133,11 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
           std::cerr << "Input mesh and output mesh are different in cells!" << std::endl;
           return EXIT_FAILURE;
           }
-        pit0++;
-        pit1++;
+        ++pit0;
+        ++pit1;
         }
-      ceIt0++;
-      ceIt1++;
+      ++ceIt0;
+      ++ceIt1;
       }
     }
 
@@ -157,8 +157,8 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
         std::cerr << "Output = " << pdIt1.Value() << std::endl;
         return EXIT_FAILURE;
         }
-      pdIt0++;
-      pdIt1++;
+      ++pdIt0;
+      ++pdIt1;
       }
     }
   else
@@ -188,8 +188,8 @@ test(char *INfilename, char *OUTfilename, bool IsBinary)
         std::cerr << "Output = " << cdIt1.Value() << std::endl;
         return EXIT_FAILURE;
         }
-      cdIt0++;
-      cdIt1++;
+      ++cdIt0;
+      ++cdIt1;
       }
     }
   else
