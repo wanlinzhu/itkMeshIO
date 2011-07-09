@@ -142,8 +142,10 @@ MeshFileWriter< TInputMesh >
   // of the ProcessObject.
   InputMeshType *nonConstInput = const_cast< InputMeshType * >( input );
 
-  // Update the meta data
-  nonConstInput->UpdateOutputInformation();
+  // Update the input.
+  // Streaming is not supported at this time.
+  nonConstInput->SetRequestedRegionToLargestPossibleRegion();
+  nonConstInput->Update();
 
   if ( m_FileTypeIsBINARY )
     {
@@ -291,12 +293,12 @@ MeshFileWriter< TInputMesh >
 
   if ( input->GetPointData()->Size() )
     {
-    unsigned long numberOfComponents = input->GetPointData()->Size()
+    const unsigned long numberOfComponents = input->GetPointData()->Size()
                                        * MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNumberOfComponents(
       input->GetPointData()->ElementAt(0) );
 
-    typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType * buffer =
-      new typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType[numberOfComponents];
+    typedef typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType ValueType;
+    ValueType * buffer = new ValueType[numberOfComponents];
     CopyPointDataToBuffer(buffer);
     m_MeshIO->WritePointData(buffer);
     delete[] buffer;
@@ -314,12 +316,12 @@ MeshFileWriter< TInputMesh >
 
   if ( input->GetCellData()->Size() )
     {
-    unsigned long numberOfComponents = input->GetCellData()->Size()
+    const unsigned long numberOfComponents = input->GetCellData()->Size()
                                        * MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents(
       input->GetCellData()->ElementAt(0) );
 
-    typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType * buffer =
-      new typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType[numberOfComponents];
+    typedef typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType ValueType;
+    ValueType * buffer = new ValueType[numberOfComponents];
     CopyCellDataToBuffer(buffer);
     m_MeshIO->WriteCellData(buffer);
     delete[] buffer;
