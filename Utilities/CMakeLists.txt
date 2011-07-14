@@ -1,1 +1,1 @@
-ADD_SUBDIRECTORY(gifticlib)
+add_subdirectory(gifticlib)

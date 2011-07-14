@@ -1,2 +1,2 @@
-ADD_EXECUTABLE(ConvertMesh ConvertMesh.cxx)
-TARGET_LINK_LIBRARIES(ConvertMesh ITKMeshIO)
+add_executable(ConvertMesh ConvertMesh.cxx)
+target_link_libraries(ConvertMesh ITKMeshIO)
