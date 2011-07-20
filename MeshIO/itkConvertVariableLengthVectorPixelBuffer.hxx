@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkConvertArrayPixelBuffer_txx
-#define __itkConvertArrayPixelBuffer_txx
+#ifndef __itkConvertVariableLengthVectorPixelBuffer_hxx
+#define __itkConvertVariableLengthVectorPixelBuffer_hxx
 
-#include "itkConvertArrayPixelBuffer.h"
+#include "itkConvertVariableLengthVectorPixelBuffer.h"
 
 namespace itk
 {
 template< typename InputPixelType, typename T, typename OutputConvertTraits >
 void
-ConvertPixelBuffer< InputPixelType, Array< T >, OutputConvertTraits >
-::Convert(InputPixelType *inputData, int inputNumberOfComponents, Array< T > *outputData, size_t size)
+ConvertPixelBuffer< InputPixelType, VariableLengthVector< T >, OutputConvertTraits >
+::Convert(InputPixelType *inputData, int inputNumberOfComponents, VariableLengthVector< T > *outputData, size_t size)
 {
   InputPixelType *endInput = inputData + size * static_cast< size_t >( inputNumberOfComponents );
 

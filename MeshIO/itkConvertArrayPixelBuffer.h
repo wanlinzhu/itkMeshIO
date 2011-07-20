@@ -56,7 +56,7 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvertArrayPixelBuffer.txx"
+#include "itkConvertArrayPixelBuffer.hxx"
 #endif
 
 #endif // __itkConvertArrayPixelBuffer_h

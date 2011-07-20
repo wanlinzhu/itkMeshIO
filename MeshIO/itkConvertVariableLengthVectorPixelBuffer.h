@@ -56,7 +56,7 @@ private:
 } //namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkConvertVariableLengthVectorPixelBuffer.txx"
+#include "itkConvertVariableLengthVectorPixelBuffer.hxx"
 #endif
 
 #endif // __itkConvertVariableLengthVectorPixelBuffer_h

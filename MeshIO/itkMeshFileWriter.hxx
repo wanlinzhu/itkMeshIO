@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshFileWriter_txx
-#define __itkMeshFileWriter_txx
+#ifndef __itkMeshFileWriter_hxx
+#define __itkMeshFileWriter_hxx
 
 #include "itkCommand.h"
 #include "itkDataObject.h"

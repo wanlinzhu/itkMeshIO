@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkMeshFileReader_txx
-#define __itkMeshFileReader_txx
+#ifndef __itkMeshFileReader_hxx
+#define __itkMeshFileReader_hxx
 
 #include "itkConvertPixelBuffer.h"
 #include "itkConvertArrayPixelBuffer.h"

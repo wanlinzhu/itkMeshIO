@@ -197,7 +197,7 @@ private:
 } // namespace ITK
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileReader.txx"
+#include "itkMeshFileReader.hxx"
 #endif
 
 #endif

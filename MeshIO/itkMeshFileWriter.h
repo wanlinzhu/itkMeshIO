@@ -187,7 +187,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshFileWriter.txx"
+#include "itkMeshFileWriter.hxx"
 #endif
 
 #endif // __itkMeshFileWriter_h
