@@ -80,7 +80,7 @@ void OFFMeshIO::OpenFile()
 
   // Read file as ascii
   // Due to the windows doesn't work well for tellg() and seekg() for ASCII mode, hence we
-  //open the file with std::ios::binary 
+  //open the file with std::ios::binary
 #ifdef _WIN32
   m_InputFile.open(this->m_FileName.c_str(), std::ios_base::in | std::ios::binary);
 #else
@@ -109,7 +109,7 @@ void OFFMeshIO::ReadMeshInformation()
   // Define input file stream and attach it to input file
   OpenFile();
 
-  // Read and analyze the first line in the file 
+  // Read and analyze the first line in the file
   std::string line;
 
   // The OFF file must containe "OFF"
@@ -176,7 +176,7 @@ void OFFMeshIO::ReadMeshInformation()
       std::getline(m_InputFile, line, '\n');
       }
 
-    // Set default cell component type 
+    // Set default cell component type
     this->m_CellBufferSize = this->m_NumberOfCells * 2;
 
     //Read each ecll's number of points and put them to cell buffer size
@@ -219,7 +219,7 @@ void OFFMeshIO::ReadMeshInformation()
     delete[] pointsBuffer;
 
     // Set default cell component type
-    this->m_CellBufferSize = this->m_NumberOfCells * 2; 
+    this->m_CellBufferSize = this->m_NumberOfCells * 2;
 
     // Read cells
     itk::uint32_t  numberOfCellPoints = 0;
@@ -249,7 +249,7 @@ void OFFMeshIO::ReadMeshInformation()
     this->m_UpdatePoints = true;
     }
 
-  // If number of cells is not equal zero, update points 
+  // If number of cells is not equal zero, update points
   if ( this->m_NumberOfCells )
     {
     this->m_UpdateCells = true;
@@ -402,7 +402,7 @@ void OFFMeshIO::WriteMeshInformation()
 
 void OFFMeshIO::WritePoints(void *buffer)
 {
-  // check file name 
+  // check file name
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");

@@ -108,7 +108,7 @@ void FreeSurferAsciiMeshIO::ReadMeshInformation()
     }
   this->m_FileType = ASCII;
 
-  // Read the number of points and number of cells 
+  // Read the number of points and number of cells
   m_InputFile >> this->m_NumberOfPoints;
   m_InputFile >> this->m_NumberOfCells;
   this->m_PointDimension = 3;
@@ -125,7 +125,7 @@ void FreeSurferAsciiMeshIO::ReadMeshInformation()
     this->m_UpdateCells = true;
     }
 
-  // Set default point component type 
+  // Set default point component type
   this->m_PointComponentType = FLOAT;
 
   // Set default cell component type

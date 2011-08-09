@@ -32,21 +32,20 @@ namespace itk
  * compile-time template pixel type in itkImageFileReader.  To work with
  * complex pixel types like RGB and RGBA a traits class is used.
  * OutputConvertTraits() is the traits class.  The default one used is
- * DefaultConvertPixelTraits.  
+ * DefaultConvertPixelTraits.
  *
  */
-                                        
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
-class ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits> 
+class ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>
 {
 public:
   /** Determine the output data type. */
   typedef typename OutputConvertTraits::ComponentType OutputComponentType;
 
   /** General method converts from one type to another. */
-  static void Convert(InputPixelType* inputData, 
-                      int inputNumberOfComponents, 
-                      Array<T>* outputData , 
+  static void Convert(InputPixelType* inputData,
+                      int inputNumberOfComponents,
+                      Array<T>* outputData ,
                       size_t size);
 
 private:

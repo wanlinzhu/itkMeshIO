@@ -70,7 +70,7 @@ void BYUMeshIO::ReadMeshInformation()
   std::ifstream inputFile;
 
   // Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
-  //open the file with std::ios::binary 
+  //open the file with std::ios::binary
 #ifdef _WIN32
   inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
 #else
