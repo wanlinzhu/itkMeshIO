@@ -59,6 +59,7 @@ namespace itk
  * \sa MeshFileReader
  *
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  *
  */
 
@@ -82,6 +83,7 @@ public:
   /**
     * \class UnknownType
     * Used to return information when types are unknown.
+    * \ingroup ITKIOMesh
     */
   class UnknownType {};
 

@@ -36,7 +36,7 @@ if ( $narg >= 1 ) then
 endif
 
 echo using `which $prog` ...
- 
+
 if ( $narg >= 1 ) then
     set files = ( $argv[$base-] )
 else

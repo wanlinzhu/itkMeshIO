@@ -29,6 +29,7 @@ namespace itk
 {
 /** \class VTKPolyDataMeshIOFactory
    * \brief Create instances of VTKPolyDataMeshIO objects using an object factory.
+   * \ingroup ITKIOMesh
    */
 class ITK_EXPORT VTKPolyDataMeshIOFactory:public ObjectFactoryBase
 {

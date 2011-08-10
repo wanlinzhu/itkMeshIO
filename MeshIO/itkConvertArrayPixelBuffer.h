@@ -27,13 +27,9 @@ namespace itk
  * \class ConvertPixelBuffer
  *  \brief Class to convert blocks of data from one type to another.
  *
- * ConvertPixelBuffer has a static method Convert().  It is used by
- * itkImageFileReader to convert from an unknown type at run-time to the
- * compile-time template pixel type in itkImageFileReader.  To work with
- * complex pixel types like RGB and RGBA a traits class is used.
- * OutputConvertTraits() is the traits class.  The default one used is
- * DefaultConvertPixelTraits.
- *
+ * Derived from ConvertPixelBuffer has a static method Convert().  It is used
+ * to work with pixel type as Array type.
+ * \ingroup ITKIOMesh
  */
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
 class ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>

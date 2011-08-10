@@ -25,6 +25,7 @@ namespace itk
 {
 /** \class MeshIOFactory
  * \brief Create instances of MeshIO objects using an object factory.
+ * \ingroup ITKIOMesh
  */
 class ITK_EXPORT MeshIOFactory:public Object
 {

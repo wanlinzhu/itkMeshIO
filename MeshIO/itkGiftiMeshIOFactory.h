@@ -29,6 +29,7 @@ namespace itk
 {
 /** \class GiftiMeshIOFactory
    * \brief Create instances of GiftiMeshIO objects using an object factory.
+   * \ingroup ITKIOMesh
    */
 class ITK_EXPORT GiftiMeshIOFactory:public ObjectFactoryBase
 {

@@ -32,8 +32,9 @@
 namespace itk
 {
 /** \class BYUMeshIO
-   *
+   *\breif This class defines how to read and write BYU Geometry File Format.
    * \ingroup IOFilters
+   * \ingroup ITKIOMesh
  */
 
 class ITK_EXPORT BYUMeshIO:public MeshIOBase

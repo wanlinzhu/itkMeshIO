@@ -29,6 +29,7 @@ namespace itk
 {
 /** \class BYUMeshIOFactory
    * \brief Create instances of BYUMeshIO objects using an object factory.
+   * \ingroup ITKIOMesh
    */
 class ITK_EXPORT BYUMeshIOFactory:public ObjectFactoryBase
 {

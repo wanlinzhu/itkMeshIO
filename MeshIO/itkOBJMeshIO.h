@@ -32,8 +32,9 @@
 namespace itk
 {
 /** \class OBJMeshIO
- *
+ * \brief This class defines how to read and write Object file format.
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  */
 
 class ITK_EXPORT OBJMeshIO:public MeshIOBase

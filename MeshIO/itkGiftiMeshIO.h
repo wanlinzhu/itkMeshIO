@@ -36,8 +36,9 @@
 namespace itk
 {
 /** \class GiftiMeshIO
- *
+ * \brief This class defines how to read and write Gifti file format.
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  */
 
 class ITK_EXPORT GiftiMeshIO:public MeshIOBase

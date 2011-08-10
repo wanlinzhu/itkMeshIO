@@ -411,7 +411,7 @@ int gifti_free_image( gifti_image * gim )
         if(G.verb > 2) fprintf(stderr,"** free gifti_image w/NULL pointer\n");
         return 1;
     }
-    
+
     if( G.verb > 2 ) fprintf(stderr,"-- freeing gifti_image\n");
 
     if( gim->version ) { free(gim->version);  gim->version = NULL; }
@@ -436,7 +436,7 @@ int gifti_free_image_contents( gifti_image * gim )
         if(G.verb > 2) fprintf(stderr,"** GFIC: free w/NULL gifti_image ptr\n");
         return 1;
     }
-    
+
     if( G.verb > 2 ) fprintf(stderr,"-- freeing gifti_image contents\n");
 
     if( gim->version ) { free(gim->version);  gim->version = NULL; }
@@ -894,7 +894,7 @@ int gifti_valid_nbyper(int nbyper, int whine)
 
 /*----------------------------------------------------------------------
  *! check that dimension values are consistent (and with datatype)
- *  
+ *
  *      - num_dim is in range
  *      - each dims[c] is postive (c < num_dim)
  *      - nvals is product of dims
@@ -984,7 +984,7 @@ int gifti_str2attr_darray(giiDataArray * DA, const char *attr,
     else if( !strcmp(attr, "Dim3") )           DA->dims[3] = atoi(value);
     else if( !strcmp(attr, "Dim4") )           DA->dims[4] = atoi(value);
     else if( !strcmp(attr, "Dim5") )           DA->dims[5] = atoi(value);
-    else if( !strcmp(attr, "Encoding") ) 
+    else if( !strcmp(attr, "Encoding") )
         DA->encoding = gifti_str2encoding(value);
     else if( !strcmp(attr, "Endian") )
         DA->endian = gifti_str2endian(value);
@@ -992,7 +992,7 @@ int gifti_str2attr_darray(giiDataArray * DA, const char *attr,
         DA->ext_fname = gifti_strdup(value);
     else if( !strcmp(attr, "ExternalFileOffset") )
 #if defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
-	    DA->ext_offset = atol(value);  /* There is no atoll defined in MS VC++ */
+        DA->ext_offset = atol(value);  /* There is no atoll defined in MS VC++ */
 #else
         DA->ext_offset = atoll(value);  /* assumes C99 */
 #endif
@@ -1070,7 +1070,7 @@ char * gifti_list_index2string(char * list[], int index)
     }
 
     if( index < 0 || index >= lsize ) {
-        if( G.verb > 0) 
+        if( G.verb > 0)
             fprintf(stderr,"** GLI2S: index %d out of range {0..%d}\n",
                 index,lsize-1);
         return "INDEX OUT OF RANGE";
@@ -1410,7 +1410,7 @@ int gifti_disp_DataArray(const char * mesg, const giiDataArray * p, int subs)
     if( subs ) gifti_disp_nvpairs("darray->meta", &p->meta);
     if( subs ) for( c = 0; c < p->numCS; c++ )
                    gifti_disp_CoordSystem("darray->coordsys", p->coordsys[c]);
-                
+
     fprintf(stderr,"    data       = %s\n"
                    "    nvals      = %u\n"
                    "    nbyper     = %d\n"
@@ -1667,9 +1667,9 @@ int gifti_DA_rows_cols(giiDataArray * da, long long * rows, long long * cols)
 {
     *rows = da->dims[0];  /* init */
     *cols = 1;
-                                                                                
+
     if( da->num_dim == 1 ) return 0;  /* use default */
-                                                                                
+
     if( da->ind_ord == GIFTI_IND_ORD_ROW_MAJOR ) {
         /* treat Dim[0] as nodes (they change most slowly) */
         *rows = da->dims[0];
@@ -1683,7 +1683,7 @@ int gifti_DA_rows_cols(giiDataArray * da, long long * rows, long long * cols)
         *rows = da->dims[da->num_dim-1];  /* take highest index */
         *cols = (*rows > 0) ? da->nvals / *rows : 1;
     }
-                                                                                
+
     return 0;
 }
 
@@ -1733,7 +1733,7 @@ int gifti_disp_hex_data(const char *mesg, const void *data, int len, FILE *fp)
     const char * dp = (const char *)data;
     FILE       * stream;
     int          c;
-    
+
     stream = fp ? fp : stdout;
 
     if( !data || len < 1 ) return -1;
@@ -1754,7 +1754,7 @@ int gifti_swap_2bytes(void * data, long long nsets)
     char    * cp1 = (char *)data, * cp2;
     char      tval;
     long long c;
-    
+
     for( c = 0; c < nsets; c++ ) {
         cp2 = cp1 + 1;
         tval = *cp1;  *cp1 = *cp2;  *cp2 = tval;
@@ -1772,7 +1772,7 @@ int gifti_swap_4bytes(void * data, long long nsets)
     char    * cp0 = (char *)data, * cp1, * cp2;
     char      tval;
     long long c;
-    
+
     for( c = 0; c < nsets; c++ ) {
         cp1 = cp0;
         cp2 = cp0 + 3;
@@ -1787,7 +1787,7 @@ int gifti_swap_4bytes(void * data, long long nsets)
 
 /*----------------------------------------------------------------------
  *! swap sets of N-byte values
- *  
+ *
  *  if N < 2         : just return
  *  if N = 2 or N = 4: call explicit function for that size (speed)
  *  else             : swap in a loop
@@ -1808,7 +1808,7 @@ int gifti_swap_Nbytes(void * data, long long nsets, int swapsize)
     if     ( swapsize  < 2 ) return 0;  /* nothing to do */
     else if( swapsize == 2 ) return gifti_swap_2bytes(data, nsets);
     else if( swapsize == 4 ) return gifti_swap_4bytes(data, nsets);
-    
+
     /* peform a swap */
     cp0 = (char *)data;
     offset = swapsize-1;  /* just for speed */
@@ -2164,7 +2164,7 @@ char * gifti_strdup( const char * src )
  *  to be allocated, also.
  *
  *  If get_data is not set, gnew->data will be left as NULL.
- *  
+ *
  *  return the address of the newly allocated structure
 *//*-------------------------------------------------------------------*/
 giiDataArray * gifti_copy_DataArray(const giiDataArray * orig, int get_data)
@@ -2345,7 +2345,7 @@ char ** gifti_copy_char_list(char ** list, int len)
  *
  *  return 0 on success, 1 on failure to find, -1 on error
 *//*-------------------------------------------------------------------*/
-int gifti_copy_gifti_meta(gifti_image * dest, gifti_image * src, 
+int gifti_copy_gifti_meta(gifti_image * dest, gifti_image * src,
                           const char * name)
 {
     char * value;
@@ -3382,7 +3382,7 @@ long long gifti_compare_raw_data(const void * p1, const void * p2,
  *
  * return offset index, so that < 0 (-1)  means no difference
  *
- * (return -1 if the pointers differ in whether they are set) 
+ * (return -1 if the pointers differ in whether they are set)
 *//*-------------------------------------------------------------------*/
 long long gifti_approx_diff_offset(const void * p1, const void * p2,
                                    long long length, int ni_type, double limit)
@@ -3882,7 +3882,7 @@ gifti_image * gifti_create_image( int numDA, int intent, int dtype, int ndim,
     if( !errs && alloc_data ) errs += gifti_alloc_DA_data(gim, NULL, 0);
 
     if( errs ) {  /* then fail out */
-        gifti_free_image(gim);      
+        gifti_free_image(gim);
         return NULL;
     }
 
@@ -4311,7 +4311,7 @@ int gifti_valid_gifti_image( gifti_image * gim, int whine )
 /*! return whether data exists
  *
  *  - darray, each darray[i] and darray[i]->data must be set
- *  
+ *
  *  return 1 if true, 0 otherwise
 *//*-------------------------------------------------------------------*/
 int gifti_image_has_data(const gifti_image * gim)
@@ -4335,7 +4335,7 @@ int gifti_image_has_data(const gifti_image * gim)
  *  Allocate and copy all contents of the gifti_image structure and
  *  sub-structures.  If copy_data is not set, all data pointers within
  *  DataArray elements will be left as NULL.
- *  
+ *
  *  return a pointer to the newly allocated structure
 *//*-------------------------------------------------------------------*/
 gifti_image * gifti_copy_gifti_image(const gifti_image * gold, int copy_data)

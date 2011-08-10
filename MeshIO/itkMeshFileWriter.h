@@ -24,9 +24,10 @@
 
 namespace itk
 {
-/** \brief Base exception class for IO problems during writing.
+/** \class MeshFileWriterException.
+ * \brief Base exception class for IO problems during writing.
  *
- * \class MeshFileWriterException
+ * \ingroup ITKIOMesh
  */
 class MeshFileWriterException:public ExceptionObject
 {
@@ -69,6 +70,7 @@ public:
  * \sa MeshIOBase
  *
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  */
 template< class TInputMesh >
 class ITK_EXPORT MeshFileWriter:public ProcessObject

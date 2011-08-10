@@ -5,7 +5,7 @@
 #include "gifti_io.h"
 #include "gifti_tool.h"
 
-static char * g_history[] = 
+static char * g_history[] =
 {
   "----------------------------------------------------------------------\n"
   "history (of gifti_tool):\n"
@@ -506,7 +506,7 @@ int gt_compare(gt_opts * opts)
         }
 
         rv0 |= rv1;
-    } 
+    }
 
     if( opts->approx_gifti ) {
             /* return value of approx is opposite that of compare */
@@ -655,7 +655,7 @@ int gt_write(gt_opts * opts)
 /* apply encoding, and allow other formats */
 int gt_write_dataset(gt_opts * opts, gifti_image * gim)
 {
-    int c; 
+    int c;
 
     if(!gim) {
         if(opts->verb) fprintf(stderr,"** trying to write NULL dataset\n");
@@ -702,7 +702,7 @@ int gt_write_dataset(gt_opts * opts, gifti_image * gim)
         }
         gifti_write_image(gim,opts->ofile_gifti,opts->dstore);
     }
-    if(opts->ofile_1D)  write_1D_file(gim->darray,gim->numDA,opts->ofile_1D,1); 
+    if(opts->ofile_1D)  write_1D_file(gim->darray,gim->numDA,opts->ofile_1D,1);
     if(opts->ofile_asc) write_as_asc(gim, opts->ofile_asc);
 
     return 0;
@@ -716,7 +716,7 @@ int gt_write_dataset(gt_opts * opts, gifti_image * gim)
  *
  * Note that name may have the form dset[int list], where the integer
  * list is used to create the DataArray list.
- * 
+ *
  * e.g.  dset.gii[5..12(3),0,$]
  *
  *       this would select DA elements 5,8,11,0,numDA-1
@@ -1644,7 +1644,7 @@ int write_1D_file(giiDataArray ** dlist, int len, char * prefix, int add_suf)
         if(G.verb > 1) fprintf(stderr,"++ 1D write many, RxC = %lld x %d\n",
                                dlist[0]->nvals, len);
         ewrite_many_lines(vlist, dlist[0]->datatype,len, dlist[0]->nvals, 0,fp);
-                          
+
         free(vlist);
     }
 
@@ -1761,7 +1761,7 @@ int ewrite_data_line(void * data, int type, int row, int cols, int spaces,
             for( c = 0; c < cols; c++ ) fprintf(fp, "%d ", ptr[c]);
             break;
         }
-        case NIFTI_TYPE_INT32: { 
+        case NIFTI_TYPE_INT32: {
             int * ptr = (int *)data + row * cols;
             for( c = 0; c < cols; c++ ) fprintf(fp, "%d ", ptr[c]);
             break;
@@ -2029,7 +2029,7 @@ int gt_modify_dset(gt_opts * opts, gifti_image * gim)
 
             /* apply to list */
             for( c = 0; c < opts->DAmodlist.len; c++ )
-                errs += gifti_set_DA_atrs(gim->darray[ilist->list[c]], 
+                errs += gifti_set_DA_atrs(gim->darray[ilist->list[c]],
                         (const char **)opts->DA_atrs.list,opts->DA_atrs.len,0);
         } else  /* apply to all DA elements */
             for( c = 0; c < gim->numDA; c++ )
@@ -2058,4 +2058,3 @@ int gt_modify_dset(gt_opts * opts, gifti_image * gim)
 
     return errs;
 }
-

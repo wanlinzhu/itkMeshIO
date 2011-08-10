@@ -39,6 +39,7 @@ namespace itk
 /** \class MeshFileReaderException
  *
  * \brief Base exception class for IO conflicts.
+ * \ingroup ITKIOMesh
  */
 class MeshFileReaderException:public ExceptionObject
 {
@@ -62,7 +63,7 @@ public:
 };
 
 /** \class MeshFileReader
- * \brief Data source that reads mesh data from a single file.
+ * \brief Mesh source that reads mesh data from a single file.
  *
  * This source object is a general filter to read data from
  * a variety of file formats. It works with a MeshIOBase subclass
@@ -87,6 +88,7 @@ public:
  * \sa MeshIOBase
  *
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
  */

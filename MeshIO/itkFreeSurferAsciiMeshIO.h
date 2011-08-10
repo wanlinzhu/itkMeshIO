@@ -32,9 +32,10 @@
 namespace itk
 {
 /** \class FreeSurferAsciiMeshIO
- *
- * Freesurfer ascii surface data format, the suffix is set as *.fsa
+ * \brief This class defines how to read and write freesurfer ASCII surface format.
+ * To use IO factory, define the suffix as *.fsa.
  * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  */
 
 class ITK_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase

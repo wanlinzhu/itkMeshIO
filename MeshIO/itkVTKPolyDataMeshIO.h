@@ -34,10 +34,11 @@
 namespace itk
 {
 /** \class VTKPolyDataMeshIO
- * \brief
- * Reads a vtkPolyData legacy file and create an itk::Mesh<> or itk::QuadEdgeMesh<>
+ * \brief This class defines how to read and write vtk legacy file format.
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.
+ * \ingroup IOFilters
+ * \ingroup ITKIOMesh
  */
 class ITK_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
